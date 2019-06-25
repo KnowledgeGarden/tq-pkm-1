@@ -3,12 +3,33 @@
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/journal">Journal</router-link> |
-      <router-link to="/blog">Blog</router-link>
+      <router-link to="/blog">Blog</router-link> |
+      <template v-if="isAuthenticated">
+        <a hrev="#" v-on:click="logout">Logout</a> |
+      </template>
+      <template v-else>
+        <router-link to="/login">Login</router-link> |
+      </template>
+      <router-link to="/register">Register</router-link>
+
     </div>
     <router-view/>
   </div>
 </template>
-
+<script>
+export default {
+  data() {
+    return {
+      isAuthenticated: false
+    };
+  },
+  methods: {
+    logout () {
+      console.log('Logout')
+    }
+  }
+};
+</script>
 <style>
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
