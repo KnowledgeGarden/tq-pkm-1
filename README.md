@@ -37,7 +37,7 @@ Open another terminal and still within the `pkm-backend` project directory run t
 npm run start:dev
 ```
 
-This will start the backend application on port `3000`.
+This will start the backend application on port `8081`.
 
 ## Frontend
 Open another terminal from the `tq-pkm-1` and navigate to the `pkm-frontend` folder to setup the frontend
