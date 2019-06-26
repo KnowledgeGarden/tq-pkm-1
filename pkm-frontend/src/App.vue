@@ -20,12 +20,13 @@
 export default {
   data() {
     return {
-      isAuthenticated: false
+      isAuthenticated: true
     };
   },
   methods: {
     logout () {
       console.log('Logout')
+      this.isAuthenticated = false
     }
   }
 };

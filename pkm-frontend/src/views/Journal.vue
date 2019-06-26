@@ -37,18 +37,37 @@
 <script>
 import { server } from "@/utils/helper";
 import axios from "axios";
+import uuidv4 from 'uuid'
+import router from "../router";
 
 export default {
   data() {
     return {
       isAuthenticated: true,
       text: '',
+      author: 'Joe',
       nodes: []
     };
   },
   methods: {
     createPost () {
       console.log('NewJournal', this.$data.text)
+      let postData = {
+        nodeId: uuidv4(),
+        nodeType: "QuickType",
+        title: this.text,
+        description: '',
+        body: '',
+        author: this.author,
+        date_posted: this.date_posted
+      };
+      this.__submitToServer(postData);
+    },
+    __submitToServer(data) {
+      axios.post(`${server.baseURL}/blog/post`, data).then(data => {
+        console.log(data);
+        router.push({ name: "home" });
+      });
     }
   }
 };

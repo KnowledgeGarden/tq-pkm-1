@@ -36,8 +36,6 @@ import router from "../../router";
 export default {
   data() {
     return {
-      nodeId: uuidv4(),
-      nodeType: "BlogType",
       title: "",
       description: "",
       body: "",
@@ -51,6 +49,8 @@ export default {
   methods: {
     createPost() {
       let postData = {
+        nodeId: uuidv4(),
+        nodeType: "BlogType",
         title: this.title,
         description: this.description,
         body: this.body,
