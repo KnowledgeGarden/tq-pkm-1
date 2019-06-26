@@ -9,8 +9,33 @@ export class PKMService {
 
     constructor(@InjectModel('Post') private readonly postModel: Model<Post>) { }
 
+    /**
+     * For blog posts only
+     */
     async getPosts(): Promise<Post[]> {
+        let query = {
+            nodeType: 'BlogType'
+        };
+        const posts = await this.postModel.find(query).exec();
+        return posts;
+    }
+
+    async getJournal(): Promise<Post[]> {
         const posts = await this.postModel.find().exec();
+        return posts;
+    }
+
+    /**
+     * Fetch specific nodeTypes
+     * @param nType 
+     * @param offset 
+     * @param count 
+     */
+    async getPostsByType(nType, offset, count): Promise<Post[]> {
+        let query = {
+            nodeType: nType
+        };
+        const posts = await this.postModel.find(query).exec();
         return posts;
     }
 

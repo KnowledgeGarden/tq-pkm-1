@@ -8,7 +8,7 @@ import { ValidateObjectId } from '../shared/pipes/validate-object-id.pipes';
 export class PKMController {
 
     constructor(private pkmService: PKMService) { }
-
+    // This is for blog posts
     // Fetch all posts
     @Get('posts')
     async getPosts(@Res() res) {
@@ -16,6 +16,12 @@ export class PKMController {
         return res.status(HttpStatus.OK).json(posts);
     }
 
+    @Get('journal')
+    async getJournal(@Res() res) {
+        const posts = await this.pkmService.getJournal();
+        return res.status(HttpStatus.OK).json(posts);
+    }
+    
     // Fetch a particular post using ID
     @Get('post/:postID')
     async getPost(@Res() res, @Param('postID', new ValidateObjectId()) postID) {
