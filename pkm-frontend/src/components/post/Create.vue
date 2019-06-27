@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import uuidv4 from 'uuid'
+const uuidv4 = require('uuid/v4')
 import axios from "axios";
 import { server } from "../../utils/helper";
 import router from "../../router";
@@ -60,9 +60,9 @@ export default {
       this.__submitToServer(postData);
     },
     __submitToServer(data) {
-      axios.post(`${server.baseURL}/blog/post`, data).then(data => {
+      axios.post(`${server.baseURL}/pkm/post`, data).then(data => {
         console.log(data);
-        router.push({ name: "home" });
+        router.push({ name: "blog" });
       });
     }
   }

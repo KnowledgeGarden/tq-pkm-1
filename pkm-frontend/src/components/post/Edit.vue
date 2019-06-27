@@ -59,14 +59,14 @@ export default {
       };
 
       axios
-        .put(`${server.baseURL}/blog/edit?postID=${this.id}`, postData)
+        .put(`${server.baseURL}/pkm/edit?postID=${this.id}`, postData)
         .then(data => {
           router.push({ name: "home" });
         });
     },
     getPost() {
       axios
-        .get(`${server.baseURL}/blog/post/${this.id}`)
+        .get(`${server.baseURL}/pkm/post/${this.id}`)
         .then(data => (this.post = data.data));
     },
     navigate() {

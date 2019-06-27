@@ -4,21 +4,24 @@ import { CreatePostDTO } from './dto/create-post.dto';
 import { ValidateObjectId } from '../shared/pipes/validate-object-id.pipes';
 
 
-@Controller('blog')
+@Controller('pkm')
 export class PKMController {
 
     constructor(private pkmService: PKMService) { }
     // This is for blog posts
     // Fetch all posts
     @Get('posts')
-    async getPosts(@Res() res) {
+    async getPosts(@Res() res) {    
         const posts = await this.pkmService.getPosts();
+        console.log('BacksidePosts', posts)
         return res.status(HttpStatus.OK).json(posts);
     }
 
     @Get('journal')
     async getJournal(@Res() res) {
+        console.log('BacksideJournal')
         const posts = await this.pkmService.getJournal();
+        console.log('BacksideJournal-2', posts)
         return res.status(HttpStatus.OK).json(posts);
     }
     

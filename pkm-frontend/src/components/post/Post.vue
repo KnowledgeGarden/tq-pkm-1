@@ -29,7 +29,7 @@ export default {
   methods: {
     getPost() {
       axios
-        .get(`${server.baseURL}/blog/post/${this.id}`)
+        .get(`${server.baseURL}/pkm/post/${this.id}`)
         .then(data => (this.post = data.data));
     },
     navigate() {

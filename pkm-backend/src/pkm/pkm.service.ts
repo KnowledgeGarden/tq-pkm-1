@@ -22,6 +22,7 @@ export class PKMService {
 
     async getJournal(): Promise<Post[]> {
         const posts = await this.postModel.find().exec();
+        console.log('BacksideServiceJournal', posts)
         return posts;
     }
 

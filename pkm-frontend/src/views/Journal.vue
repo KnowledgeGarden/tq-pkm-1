@@ -3,7 +3,7 @@
     <div class="text-center">
       <h1>Journal</h1>
 
-      <div v-if="nodes.length === 0">
+      <div v-if="posts.length === 0">
         <h4> No entries found at the moment </h4>
       </div>
     </div>
@@ -19,25 +19,25 @@
       </form>
     </div>
     <hr>
-    <v-table :data="nodes">
-    <thead slot="head">
-        <th>Subject</th>
-        <th>Date</th>
-    </thead>
-    <tbody slot="body" slot-scope="{displayData}">
+    <v-table :data="posts">
+      <thead slot="head">
+        <th>Subject </th>
+        <th> Date</th>
+      </thead>
+      <tbody slot="body" slot-scope="{displayData}">
         <tr v-for="row in displayData" :key="row.id">
-          <td>{{ row.subject }}</td>
-          <td>{{ row.date }}</td>
+          <td>{{ row.title }}</td>
+          <td>{{ row. date_posted }}</td>
         </tr>
-    </tbody>
-  </v-table>
-    
+      </tbody>
+    </v-table>
   </div>
 </template>
 <script>
+// TODO: add author to table
 import { server } from "@/utils/helper";
 import axios from "axios";
-import uuidv4 from 'uuid'
+const uuidv4 = require('uuid/v4')
 import router from "../router";
 
 export default {
@@ -46,7 +46,7 @@ export default {
       isAuthenticated: true,
       text: '',
       author: 'Joe',
-      nodes: []
+      posts: []
     };
   },
   methods: {
@@ -63,12 +63,26 @@ export default {
       };
       this.__submitToServer(postData);
     },
-    __submitToServer(data) {
-      axios.post(`${server.baseURL}/blog/post`, data).then(data => {
+    __submitToServer (data) {
+      axios.post(`${server.baseURL}/pkm/post`, data).then(data => {
         console.log(data);
-        router.push({ name: "home" });
+        router.push({ name: "journal" });
       });
+    },
+    fetchPosts () {
+      // This will fetch every node in the Posts database
+      // TODO maybe it should not
+      axios
+        .get(`${server.baseURL}/pkm/journal`)
+        .then(data => (this.posts = data.data));
     }
+  },
+  mounted () {
+    this.fetchPosts();
+    console.log('Journal', this.posts)
+    // TODO this is not receiving the data even though
+    // console logs in pkm.controller says the same kind of data
+    // is being made available as with the blogs - which work
   }
 };
 </script>

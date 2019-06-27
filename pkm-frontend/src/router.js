@@ -23,6 +23,6 @@ export default new Router({
     { path: '/create', name: 'Create', component: CreateComponent },
     { path: '/edit/:id', name: 'Edit', component: EditComponent },
     { path: '/post/:id', name: 'Post', component: PostComponent },
-    { path: '/journal', name: 'Journal', component: JournalComponent }
+    { path: '/journal', name: 'journal', component: JournalComponent }
   ]
 });
