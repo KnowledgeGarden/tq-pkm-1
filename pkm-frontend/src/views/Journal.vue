@@ -38,7 +38,6 @@
 import { server } from "@/utils/helper";
 import axios from "axios";
 const uuidv4 = require('uuid/v4')
-import router from "../router";
 
 export default {
   data() {
@@ -51,7 +50,7 @@ export default {
   },
   methods: {
     createPost () {
-      console.log('NewJournal', this.$data.text)
+      // console.log('NewJournal', this.$data.text)
       let postData = {
         nodeId: uuidv4(),
         nodeType: "QuickType",
@@ -59,14 +58,14 @@ export default {
         description: '',
         body: '',
         author: this.author,
-        date_posted: this.date_posted
+        date_posted: new Date().toLocaleDateString()
       };
       this.__submitToServer(postData);
     },
     __submitToServer (data) {
       axios.post(`${server.baseURL}/pkm/post`, data).then(data => {
         console.log(data);
-        router.push({ name: "journal" });
+        window.location.reload();
       });
     },
     fetchPosts () {
