@@ -19,18 +19,27 @@
       </form>
     </div>
     <hr>
-    <v-table :data="posts">
-      <thead slot="head">
-        <th>Subject </th>
-        <th> Date</th>
-      </thead>
-      <tbody slot="body" slot-scope="{displayData}">
-        <tr v-for="row in displayData" :key="row.id">
-          <td>{{ row.title }}</td>
-          <td>{{ row. date_posted }}</td>
-        </tr>
-      </tbody>
-    </v-table>
+    <b-pagination
+      v-model="currentPage"
+      :total-rows="rows"
+      :per-page="perPage"
+      aria-controls="journalTable"
+    ></b-pagination>
+
+    <p class="mt-3">Current Page: {{ currentPage }}</p>
+    <b-table 
+      striped hover
+      :id="journalTable"
+      :items="posts" 
+      :fields="fields"
+      :perPage="perPage"
+      >
+      <template slot="view" slot-scope="row">
+        <b-button size="sm" @click="view(row.index)" class="mr-1">
+          View
+        </b-button>
+      </template>
+    </b-table>
   </div>
 </template>
 <script>
@@ -40,15 +49,35 @@ import axios from "axios";
 const uuidv4 = require('uuid/v4')
 
 export default {
+// @see https://bootstrap-vue.js.org/docs/components/pagination/
+// @see https://bootstrap-vue.js.org/docs/components/table/
+
   data() {
     return {
       isAuthenticated: true,
       text: '',
       author: 'Joe',
+      perPage: 20,
+      currentPage: 1,
+      rows: 0,
+      fields: [{
+            key: 'title',
+            sortable: true
+          },
+          {
+            key: 'date_posted',
+            sortable: false
+          }, 'view'],
       posts: []
     };
   },
   methods: {
+    view(index) {
+      //index is actually row index
+      var id = this.posts[index]._id; 
+      console.log('VIEW', id);
+      this.$router.push("/post/"+id);
+    },
     createPost () {
       // console.log('NewJournal', this.$data.text)
       let postData = {
@@ -71,14 +100,15 @@ export default {
     fetchPosts () {
       // This will fetch every node in the Posts database
       // TODO maybe it should not
-      axios
+      return axios
         .get(`${server.baseURL}/pkm/journal`)
         .then(data => (this.posts = data.data));
     }
   },
-  mounted () {
-    this.fetchPosts();
-    console.log('Journal', this.posts)
+  async mounted () {
+    await this.fetchPosts();
+    this.$data.rows = this.$data.posts.length;
+    console.log('Journal', this.posts);
     // TODO this is not receiving the data even though
     // console logs in pkm.controller says the same kind of data
     // is being made available as with the blogs - which work

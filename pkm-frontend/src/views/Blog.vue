@@ -48,12 +48,12 @@ export default {
       posts: []
     };
   },
-  created() {
+  async created() {
     this.fetchPosts();
   },
   methods: {
     fetchPosts() {
-      axios
+      return axios
         .get(`${server.baseURL}/pkm/posts`)
         .then(data => (this.posts = data.data));
     },

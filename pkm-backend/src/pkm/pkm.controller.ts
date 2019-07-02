@@ -2,6 +2,7 @@ import { Controller, Get, Res, HttpStatus, Param, NotFoundException, Post, Body,
 import { PKMService } from './pkm.service';
 import { CreatePostDTO } from './dto/create-post.dto';
 import { ValidateObjectId } from '../shared/pipes/validate-object-id.pipes';
+import { json } from 'body-parser';
 
 
 @Controller('pkm')
@@ -11,10 +12,11 @@ export class PKMController {
     // This is for blog posts
     // Fetch all posts
     @Get('posts')
-    async getPosts(@Res() res) {    
+    async getPosts(/*@Res() res*/) : Promise<Array<Object>> {    
         const posts = await this.pkmService.getPosts();
         console.log('BacksidePosts', posts)
-        return res.status(HttpStatus.OK).json(posts);
+        return posts;
+        //return res.status(HttpStatus.OK).json(posts);
     }
 
     @Get('journal')
